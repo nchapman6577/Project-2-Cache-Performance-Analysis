@@ -98,14 +98,39 @@ for(int i=0; i<number_of_lines_in_cache; i++)
 tags[i]=-1;
 }
 bool DirectCache::requestMemoryAddress(unsigned int address) {
-// My Edited Code//
+///////// My Edited Code//////////
+  bool hitMaker = false;// initialization
+  int cahce_word = address & word_mask;// formula for cache word
+  int cache_line = ((int) log2(number_of_words_in_block) << (address & line_mask) );// formula for cache line 
+  int tag = ((int) (log2 (number_of_words_in_block) + log2(number_of_lines_in_cache)) << (address & tag_mask));// formula for tag
   
+	number_of_memory_requests++;// An increment for the amount of memory request there are
+
+	if (tags[cache_line] != -1)// Program finds hit
+	{
+		hitMaker = true;
+		number_of_hits++;//increments the hits
+	}
+  
+	else	//Program does not find hit which means its a miss
+	{
+		tags[cache_line] = tag; //tag declaration
+		for(int i = 0; i < number_of_words_in_block; i++)
+		{
+			blocks[cache_line, i] = memory[address];
+			address++;//increments the address
+		}
+	}
+  else if //error
+  {
+  }
+    return hitMaker;//returns the hit
 }
 unsigned int DirectCache::getPercentageOfHits(void) {
-// My Edited Code //
+///////// My Edited Code//////////
   unsigned int percentOfHits;
-  percentOfHits = (number_of_hits*100/number_of_memory_request);
-return percentOfHits;//returned value = (percent of hits = number of total hits * 100/ mem requests)
+  percentOfHits = ((number_of_hits*100)/(number_of_memory_requests));// number of total hits * 100/ mem requests
+return percentOfHits;
 }
 ////////////////////////////// powerOfTwo() //////////////////////////////
 // powerOfTwo() returns the value of two raised to the power exponent.  //

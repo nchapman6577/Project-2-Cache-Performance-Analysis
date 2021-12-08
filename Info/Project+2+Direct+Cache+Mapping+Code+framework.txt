@@ -12,7 +12,7 @@
 // - main() with the initialization of the memory array and the class
 
 
-#include <cmath>
+#include <cmath> 
 #include <iostream>
 #include <iomanip>
 using namespace std;
